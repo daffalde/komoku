@@ -3,9 +3,13 @@
 import { useState } from "react";
 import "./navbar.css";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 export default function Navbar() {
   const [isProductHover, setIsProductHover] = useState(false);
+
+  const params = useParams<{ id: string }>();
+  console.log(params);
 
   return (
     <div className="navbar">
@@ -13,7 +17,7 @@ export default function Navbar() {
         <img src="/logo1.svg" alt="logo komoku" />
         <ul>
           <li>
-            <Link href="/home">Home</Link>
+            <Link href="/">Home</Link>
           </li>
           <li>
             <Link
@@ -58,6 +62,34 @@ export default function Navbar() {
           <p className="p-half">Documentation</p>
           <img src="/documentation.svg" alt="documentation logo" />
         </button>
+      </div>
+      <div className="mobile-navigation-bar">
+        <ul>
+          <li>
+            <Link className="mnb-on" href="/">
+              <img src="/url.png" alt="bottom navigation logo" />
+              URL
+            </Link>
+          </li>
+          <li>
+            <Link href="/email">
+              <img src="/email.png" alt="bottom navigation logo" />
+              Email
+            </Link>
+          </li>
+          <li>
+            <Link href="/sms">
+              <img src="/sms.png" alt="bottom navigation logo" />
+              SMS
+            </Link>
+          </li>
+          <li>
+            <Link href="https://github.com/daffalde/komoku">
+              <img src="/document.png" alt="bottom navigation logo" />
+              Docs
+            </Link>
+          </li>
+        </ul>
       </div>
     </div>
   );

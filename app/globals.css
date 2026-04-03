@@ -13,9 +13,14 @@ h3 {
   font-size: 25px;
 }
 h1 {
-  font-size: 64px;
+  font-size: clamp(
+    2rem,
+    8vw,
+    4rem
+  ); /* Responsif otomatis: min 40px, max 64px */
   color: #404040;
   font-weight: 700;
+  line-height: 1.2;
 }
 p {
   font-size: 16px;
@@ -68,7 +73,7 @@ a {
   max-width: 1440px;
   width: 100%;
   height: 100dvh;
-  padding: 35px 0;
+  padding: 20px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
