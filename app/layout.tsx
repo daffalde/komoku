@@ -11,8 +11,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "My Awesome App", // Sesuaikan judul aplikasi kamu
-  description: "Built with Next.js and Plus Jakarta Sans",
+  title: "Komoku - URL Checker",
+  description: "Komoku - Advanced machine learning phishing link detection",
 };
 
 export default function RootLayout({
