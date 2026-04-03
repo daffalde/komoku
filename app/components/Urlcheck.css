@@ -1,0 +1,68 @@
+.urlcheck {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.urlcheck-left {
+  width: 450px;
+  height: 105px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 15px;
+  padding: 15px;
+  border: 1px solid hsla(0, 0%, 25%, 0.1);
+  border-radius: 10px;
+}
+.urlcheck-left-green {
+  background: #dfffc4;
+  background: linear-gradient(
+    128deg,
+    rgba(223, 255, 196, 0.5) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+.urlcheck-left-red {
+  background: #ffebee;
+  background: linear-gradient(
+    128deg,
+    rgba(255, 235, 238, 0.95) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+.urlcheck-left span {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: column;
+  height: 100%;
+}
+.urlcheck-right {
+  width: 120px;
+  height: 105px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 5px; /* Ini akan menjadi ketebalan border */
+  border-radius: 10px; /* Jika ingin sedikit rounded */
+}
+.urlcheck-left-content {
+  background: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: #404040;
+  font-weight: bold;
+}
+.urlcheck-left a {
+  color: #404040;
+  font-size: 16px;
+}

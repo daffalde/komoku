@@ -3,8 +3,16 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-h6 {
+h4 {
+  color: #404040;
+  font-size: 20px;
+  font-weight: 600;
+}
+h3 {
+  color: #404040;
+  font-size: 25px;
+}
+h1 {
   font-size: 64px;
   color: #404040;
   font-weight: 700;
@@ -26,6 +34,10 @@ p {
 }
 a {
   font-weight: 500;
+}
+
+.danger {
+  color: #ff4d4d;
 }
 .container {
   width: 100%;
@@ -116,11 +128,12 @@ a {
 }
 
 .url-analis-button {
+  width: 150px;
+  height: 50px;
   font-size: 16px;
   color: white;
   background-color: #404040;
   border-radius: 500px;
-  padding: 15px 35px;
   border: none;
   transition: 0.2s;
   cursor: pointer;
@@ -128,4 +141,17 @@ a {
 .url-analis-button:hover {
   background-color: #5d5d5d;
   transition: 0.2s;
+}
+
+.loading-animation {
+  animation: spinner 1s linear infinite;
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
