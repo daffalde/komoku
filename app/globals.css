@@ -160,3 +160,13 @@ a {
     transform: rotate(360deg);
   }
 }
+
+@media (max-width: 600px) {
+  .linkPage {
+    justify-content: start;
+    gap: 3vh;
+  }
+  .linkPage-title-desc {
+    display: none;
+  }
+}

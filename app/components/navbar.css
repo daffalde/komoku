@@ -94,6 +94,8 @@
   background-color: white;
   padding: 5px;
   border-radius: 500px;
+  display: none;
+  z-index: 100;
 }
 .mobile-navigation-bar img {
   height: 35px;
@@ -137,5 +139,8 @@
   }
   .navbarLeft img {
     height: 25px;
+  }
+  .mobile-navigation-bar {
+    display: block;
   }
 }

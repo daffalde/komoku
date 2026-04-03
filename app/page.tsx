@@ -55,7 +55,10 @@ export default function Home() {
             <h1>link</h1>
             <h1>detection</h1>
           </div>
-          <p style={{ maxWidth: "600px", width: "100%" }}>
+          <p
+            className="linkPage-title-desc"
+            style={{ maxWidth: "600px", width: "100%" }}
+          >
             Komoku analyzes suspicious URLs through multi-layered feature
             extraction to deliver reliable threat detection and prevent
             unauthorized data access.
