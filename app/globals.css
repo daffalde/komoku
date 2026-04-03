@@ -92,7 +92,7 @@ a {
   align-items: center;
   gap: 10px;
 }
-.l-p-title h6:last-child {
+.l-p-title h1:last-child {
   display: flex;
   justify-content: center;
   align-items: center;
