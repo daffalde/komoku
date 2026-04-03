@@ -1,12 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap");
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Plus Jakarta Sans", sans-serif;
 }
 
+h6 {
+  font-size: 64px;
+  color: #404040;
+  font-weight: 700;
+}
 p {
   font-size: 16px;
   color: #404040;
@@ -16,8 +18,13 @@ p {
   font-size: 16px;
   color: #6a6a6a;
 }
+.p-secondary {
+  font-size: 16px;
+  color: #404040;
+  font-weight: 500;
+  opacity: 0.5;
+}
 a {
-  font-family: "Plus Jakarta Sans", sans-serif;
   font-weight: 500;
 }
 .container {
@@ -39,6 +46,7 @@ a {
     rgba(240, 240, 240, 0) 0%,
     rgba(240, 240, 240, 1) 100%
   );
+  z-index: 0;
   position: absolute;
   bottom: 0;
 }
@@ -49,4 +57,75 @@ a {
   width: 100%;
   height: 100dvh;
   padding: 35px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+.link-page-content {
+  width: 100%;
+  max-width: 900px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+.l-p-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.l-p-title h6:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #279385;
+  background-color: #d7f4f0;
+  padding: 0 15px;
+  padding-bottom: 5px;
+  border-radius: 500px;
+  border: 1px solid rgba(39, 147, 132, 0.1);
+}
+
+.l-p-input {
+  width: 100%;
+  height: fit-content;
+  background-color: white;
+  border-radius: 1px solid hsla(0, 0%, 25%, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 500px;
+  padding: 2px 2px 2px 20px;
+  border: 1px solid hsla(0, 0%, 25%, 0.2);
+  gap: 10px;
+}
+.l-p-input input {
+  border: none;
+  font-size: 16px;
+  width: 100%;
+  height: 100%;
+}
+.l-p-input input:focus {
+  outline: none;
+}
+
+.url-analis-button {
+  font-size: 16px;
+  color: white;
+  background-color: #404040;
+  border-radius: 500px;
+  padding: 15px 35px;
+  border: none;
+  transition: 0.2s;
+  cursor: pointer;
+}
+.url-analis-button:hover {
+  background-color: #5d5d5d;
+  transition: 0.2s;
 }
