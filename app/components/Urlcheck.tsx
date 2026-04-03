@@ -37,17 +37,17 @@ export default function Urlcheck({
           </Link>
         </span>
       </div>
-      <div
-        style={{
-          background: `conic-gradient(${HasilResult == "Suspicious Link" ? "#b80000" : "#43B800"} ${HasilConfidence}%, #cecece 0%)`,
-        }}
-        className="urlcheck-right"
-      >
-        <div className="urlcheck-left-content">
-          <h3>{HasilConfidence}%</h3>
-          <p className="p-half">Confidence</p>
-        </div>
+      <div className="progress-confid">
+        <div
+          style={{
+            width: `${HasilConfidence}%`,
+            backgroundColor:
+              HasilResult == "Suspicious Link" ? "#b80000" : "#43B800",
+          }}
+          className="prohress-confid-in"
+        ></div>
       </div>
+      <p style={{ fontWeight: "700" }}>Confidence : {HasilConfidence}%</p>
     </div>
   );
 }
