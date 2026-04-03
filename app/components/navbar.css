@@ -1,0 +1,86 @@
+.navbar {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.coming-soon {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.navbarLeft {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+.navbarLeft ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.navbarLeft ul li {
+  list-style: none;
+}
+
+.navbarLeft ul li a {
+  text-decoration: none;
+  color: #404040;
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  transition: 0.1s;
+  border-radius: 5px;
+  cursor: default;
+}
+.navbarLeft ul li a:hover {
+  background-color: #dfdfdf;
+  transition: 0.1s;
+}
+
+.navbarRight button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background-color: #dbdbdb;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+.navbarRight button:hover {
+  background-color: #c0c0c0;
+  transition: 0.3s;
+}
+.navbarRight img {
+  height: 20px;
+  transform: rotate(180deg);
+  opacity: 0.5;
+}
+
+.product-hover {
+  width: 270px;
+  height: fit-content;
+  background-color: white;
+  position: absolute;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+}
+
+.p-h-item {
+  width: 100%;
+  display: flex;
+  justify-content: start !important;
+  align-items: center;
+}

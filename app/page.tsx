@@ -7,8 +7,8 @@ export default function Home() {
     <div className="container">
       <div className="linkPage">
         <Navbar />
-        <h1>halo</h1>
       </div>
+      <div className="bottomGradient"></div>
     </div>
   );
 }
