@@ -53,7 +53,12 @@ export default function Home() {
             <h1>learning</h1>
             <h1>phishing</h1>
             <h1>link</h1>
-            <h1>detection</h1>
+            <span>
+              <h1>detection</h1>
+              <h1>identification</h1>
+              <h1>recognition</h1>
+            </span>
+            <h1 className="last-word">detection</h1>
           </div>
           <p
             className="linkPage-title-desc"
