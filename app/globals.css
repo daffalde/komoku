@@ -42,7 +42,11 @@ a {
 }
 
 .danger {
-  color: #ff4d4d;
+  color: white;
+  background-color: #ff4d4d;
+  display: block;
+  padding: 10px 20px;
+  border-radius: 500px;
 }
 .container {
   width: 100%;
@@ -275,7 +279,7 @@ a {
 @media (max-width: 600px) {
   .linkPage {
     justify-content: start;
-    gap: 3vh;
+    gap: 8dvh;
   }
   .linkPage-title-desc {
     display: none;

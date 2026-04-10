@@ -14,6 +14,13 @@ export default function Home() {
   const [qrFile, setQrFile] = useState<string>("");
   const [qrContent, setQrContent] = useState<boolean>(false);
 
+  const [notQR, setNotQR] = useState<boolean>(false);
+
+  const [bukanLink, setBukanLink] = useState<boolean>(false);
+
+  const polaLink =
+    /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
@@ -22,25 +29,32 @@ export default function Home() {
       setIsError(true);
       setIsLoading(false);
     } else {
-      try {
-        const response = await fetch(
-          "https://daffalde-linkphishing.hf.space/predict",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
+      if (polaLink.test(inputUrl)) {
+        try {
+          const response = await fetch(
+            "https://daffalde-linkphishing.hf.space/predict",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ url: inputUrl }),
             },
-            body: JSON.stringify({ url: inputUrl }),
-          },
-        );
-        const data = await response.json();
-        setUrlHasil(data);
+          );
+          const data = await response.json();
+          setUrlHasil(data);
+          setIsLoading(false);
+          setIsError(false);
+          setInputUrl("");
+        } catch (error) {
+          console.error("Error:", error);
+          setIsLoading(false);
+        }
+      } else {
+        setBukanLink(true);
+        setQrContent(false);
         setIsLoading(false);
-        setIsError(false);
         setInputUrl("");
-      } catch (error) {
-        console.error("Error:", error);
-        setIsLoading(false);
       }
     }
   };
@@ -49,7 +63,6 @@ export default function Home() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Reset result dan set loading
     setQrFile("");
     setIsLoading(true);
 
@@ -58,10 +71,8 @@ export default function Home() {
     reader.onload = (event) => {
       const image = new Image();
 
-      // PERBAIKAN 1: Pasang listener sebelum set .src
       image.onload = async () => {
         try {
-          // Membuat canvas di memori, bukan di DOM
           const canvas = document.createElement("canvas");
           const context = canvas.getContext("2d");
 
@@ -80,31 +91,37 @@ export default function Home() {
           const code = jsQR(imageData.data, imageData.width, imageData.height);
 
           if (code) {
-            setQrFile(code.data); // code.data adalah URL hasil scan (misal: "https://link-jahat.com")
-
-            try {
-              // JANGAN fetch ke code.data, tapi fetch ke API pendeteksi phishing kamu
-              const response = await fetch(
-                "https://daffalde-linkphishing.hf.space/predict",
-                {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
+            setQrFile(code.data);
+            if (polaLink.test(code.data)) {
+              try {
+                const response = await fetch(
+                  "https://daffalde-linkphishing.hf.space/predict",
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ url: code.data }),
                   },
-                  body: JSON.stringify({ url: code.data }), // Masukkan URL hasil scan QR di sini
-                },
-              );
+                );
 
-              const data = await response.json();
-              setUrlHasil(data);
-              setIsLoading(false);
-              setIsError(false);
-              setQrContent(false);
-            } catch (error) {
-              console.error("Error saat deteksi QR:", error);
-              setIsLoading(false);
+                const data = await response.json();
+                setUrlHasil(data);
+                setIsLoading(false);
+                setIsError(false);
+                setQrContent(false);
+              } catch (error) {
+                console.error("Error saat deteksi QR:", error);
+                setIsLoading(false);
+                setQrContent(false);
+              }
+            } else {
+              setBukanLink(true);
               setQrContent(false);
             }
+          } else {
+            setNotQR(true);
+            setQrContent(false);
           }
         } catch (err) {
           console.error(err);
@@ -113,8 +130,6 @@ export default function Home() {
           setIsLoading(false);
         }
       };
-
-      // PERBAIKAN 3: Tangani jika gambar gagal dimuat
       image.onerror = () => {
         setQrFile("Gagal memuat gambar.");
         setIsLoading(false);
@@ -185,6 +200,7 @@ export default function Home() {
                       type="file"
                       id="qr-upload"
                       accept="image/*"
+                      capture="environment"
                       onChange={handleScan}
                     />
                   </div>
@@ -211,7 +227,15 @@ export default function Home() {
               ></div>
             )}
           </div>
-          {isError && <p className="danger">Please input url to analyze</p>}
+          {isError && (
+            <p className="danger">Please provide the link for analysis</p>
+          )}
+          {bukanLink && <p className="danger">A variable is not a link</p>}
+          {notQR && (
+            <p className="danger">
+              The uploaded image does not contain a QR code
+            </p>
+          )}
           <p className="p-secondary">
             Processing URL patterns using Random Forest Algorithm
           </p>

@@ -9,7 +9,6 @@ export default function Navbar() {
   const [isProductHover, setIsProductHover] = useState(false);
 
   const params = useParams<{ id: string }>();
-  console.log(params);
 
   return (
     <div className="navbar">
