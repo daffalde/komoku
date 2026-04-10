@@ -30,7 +30,7 @@ export default function Urlcheck({
               HasilUrl.startsWith("http") ? HasilUrl : `https://${HasilUrl}`
             }
             target="_blank"
-            rel="noopener noreferrer" // Wajib untuk keamanan saat buka tab baru
+            rel="noopener noreferrer"
             className="url-link"
           >
             {HasilUrl}

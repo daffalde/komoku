@@ -43,6 +43,13 @@
   flex-direction: column;
   height: 100%;
 }
+.urlcheck-left span a {
+  width: 370px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #404040;
+}
 
 .progress-confid {
   width: 100%;
@@ -55,8 +62,11 @@
   border-radius: 100px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 480px) {
   .urlcheck {
     flex-direction: column;
+  }
+  .urlcheck-left span a {
+    width: 75vw;
   }
 }

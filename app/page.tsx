@@ -18,43 +18,37 @@ export default function Home() {
 
   const [bukanLink, setBukanLink] = useState<boolean>(false);
 
-  const polaLink =
-    /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
-
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
+    setBukanLink(false);
+    setIsError(false);
+    setNotQR(false);
+    setUrlHasil(null);
 
     if (inputUrl === "") {
       setIsError(true);
       setIsLoading(false);
     } else {
-      if (polaLink.test(inputUrl)) {
-        try {
-          const response = await fetch(
-            "https://daffalde-linkphishing.hf.space/predict",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ url: inputUrl }),
+      try {
+        const response = await fetch(
+          "https://daffalde-linkphishing.hf.space/predict",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
             },
-          );
-          const data = await response.json();
-          setUrlHasil(data);
-          setIsLoading(false);
-          setIsError(false);
-          setInputUrl("");
-        } catch (error) {
-          console.error("Error:", error);
-          setIsLoading(false);
-        }
-      } else {
-        setBukanLink(true);
-        setQrContent(false);
+            body: JSON.stringify({ url: inputUrl }),
+          },
+        );
+        const data = await response.json();
+        setUrlHasil(data);
         setIsLoading(false);
+        setIsError(false);
         setInputUrl("");
+      } catch (error) {
+        console.error("Error:", error);
+        setIsLoading(false);
       }
     }
   };
@@ -65,6 +59,10 @@ export default function Home() {
 
     setQrFile("");
     setIsLoading(true);
+    setBukanLink(false);
+    setIsError(false);
+    setNotQR(false);
+    setUrlHasil(null);
 
     const reader = new FileReader();
 
@@ -74,49 +72,59 @@ export default function Home() {
       image.onload = async () => {
         try {
           const canvas = document.createElement("canvas");
-          const context = canvas.getContext("2d");
+          const context = canvas.getContext("2d", { willReadFrequently: true });
 
           if (!context) throw new Error("Context tidak ditemukan");
 
-          canvas.width = image.width;
-          canvas.height = image.height;
-          context.drawImage(image, 0, 0);
+          // Tentukan ukuran maksimal untuk pemrosesan
+          const maxDimension = 1000;
+          let width = image.width;
+          let height = image.height;
 
-          const imageData = context.getImageData(
-            0,
-            0,
-            canvas.width,
-            canvas.height,
-          );
-          const code = jsQR(imageData.data, imageData.width, imageData.height);
+          if (width > height) {
+            if (width > maxDimension) {
+              height *= maxDimension / width;
+              width = maxDimension;
+            }
+          } else {
+            if (height > maxDimension) {
+              width *= maxDimension / height;
+              height = maxDimension;
+            }
+          }
 
+          canvas.width = width;
+          canvas.height = height;
+
+          // Gambar ulang dengan ukuran yang lebih kecil
+          context.drawImage(image, 0, 0, width, height);
+
+          const imageData = context.getImageData(0, 0, width, height);
+          const code = jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: "dontInvert", // Mempercepat proses jika QR standar
+          });
           if (code) {
             setQrFile(code.data);
-            if (polaLink.test(code.data)) {
-              try {
-                const response = await fetch(
-                  "https://daffalde-linkphishing.hf.space/predict",
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ url: code.data }),
+            try {
+              const response = await fetch(
+                "https://daffalde-linkphishing.hf.space/predict",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
                   },
-                );
+                  body: JSON.stringify({ url: code.data }),
+                },
+              );
 
-                const data = await response.json();
-                setUrlHasil(data);
-                setIsLoading(false);
-                setIsError(false);
-                setQrContent(false);
-              } catch (error) {
-                console.error("Error saat deteksi QR:", error);
-                setIsLoading(false);
-                setQrContent(false);
-              }
-            } else {
-              setBukanLink(true);
+              const data = await response.json();
+              setUrlHasil(data);
+              setIsLoading(false);
+              setIsError(false);
+              setQrContent(false);
+            } catch (error) {
+              console.error("Error saat deteksi QR:", error);
+              setIsLoading(false);
               setQrContent(false);
             }
           } else {
@@ -200,7 +208,6 @@ export default function Home() {
                       type="file"
                       id="qr-upload"
                       accept="image/*"
-                      capture="environment"
                       onChange={handleScan}
                     />
                   </div>
