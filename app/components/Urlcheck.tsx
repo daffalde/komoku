@@ -6,15 +6,16 @@ export default function Urlcheck({
   HasilResult,
   HasilDesc,
   HasilUrl,
+  code,
 }: any) {
   return (
     <div className="urlcheck">
       <div
-        className={`urlcheck-left ${HasilResult == "Suspicious Link" ? "urlcheck-left-red" : "urlcheck-left-green"}`}
+        className={`urlcheck-left ${code !== 100 ? "urlcheck-left-red" : "urlcheck-left-green"}`}
       >
         <img
           height={30}
-          src={HasilResult == "Suspicious Link" ? "/warning.png" : "/check.png"}
+          src={code !== 100 ? "/warning.png" : "/check.png"}
           alt="warning logo"
         />
         <span>
@@ -22,9 +23,8 @@ export default function Urlcheck({
           <p className="p-secondary">{HasilDesc}</p>
           <Link
             style={{
-              pointerEvents: HasilResult == "Suspicious Link" ? "none" : "auto",
-              textDecoration:
-                HasilResult == "Suspicious Link" ? "line-through" : "underline",
+              pointerEvents: code !== 100 ? "none" : "auto",
+              textDecoration: code !== 100 ? "line-through" : "underline",
             }}
             href={
               HasilUrl.startsWith("http") ? HasilUrl : `https://${HasilUrl}`
@@ -37,17 +37,21 @@ export default function Urlcheck({
           </Link>
         </span>
       </div>
-      <div className="progress-confid">
-        <div
-          style={{
-            width: `${HasilConfidence}%`,
-            backgroundColor:
-              HasilResult == "Suspicious Link" ? "#b80000" : "#43B800",
-          }}
-          className="prohress-confid-in"
-        ></div>
-      </div>
-      <p style={{ fontWeight: "700" }}>Confidence : {HasilConfidence}%</p>
+      {code === 200 || code === 201 ? null : (
+        <>
+          <div className="progress-confid">
+            <div
+              style={{
+                width: `${HasilConfidence}%`,
+                backgroundColor:
+                  HasilResult == "Suspicious Link" ? "#b80000" : "#43B800",
+              }}
+              className="prohress-confid-in"
+            ></div>
+          </div>
+          <p style={{ fontWeight: "700" }}>Confidence : {HasilConfidence}%</p>
+        </>
+      )}
     </div>
   );
 }

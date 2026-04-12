@@ -188,6 +188,11 @@ export default function Home() {
               onChange={(e) => setInputUrl(e.target.value)}
               type="text"
               placeholder="Enter URL to check safety..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSubmit(e);
+                }
+              }}
             />
             <div className="qr-button-pc">
               <img
@@ -252,6 +257,7 @@ export default function Home() {
               HasilResult={urlHasil.result}
               HasilDesc={urlHasil.desc}
               HasilUrl={urlHasil.url}
+              code={urlHasil.code}
             />
           )}
         </div>
