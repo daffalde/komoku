@@ -213,6 +213,7 @@ export default function Home() {
                       type="file"
                       id="qr-upload"
                       accept="image/*"
+                      capture="environment"
                       onChange={handleScan}
                     />
                   </div>
