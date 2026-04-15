@@ -30,6 +30,12 @@ export default function Home() {
       setIsError(true);
       setIsLoading(false);
     } else {
+      // Normalisasi URL: tambahkan https:// jika belum ada
+      let normalizedUrl = inputUrl.trim();
+      if (!/^https?:\/\//i.test(normalizedUrl)) {
+        normalizedUrl = "https://" + normalizedUrl;
+      }
+
       try {
         const response = await fetch(
           "https://daffalde-linkphishing.hf.space/predict",
@@ -38,7 +44,7 @@ export default function Home() {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ url: inputUrl }),
+            body: JSON.stringify({ url: normalizedUrl }),
           },
         );
         const data = await response.json();

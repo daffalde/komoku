@@ -11,11 +11,15 @@ export default function Urlcheck({
   return (
     <div className="urlcheck">
       <div
-        className={`urlcheck-left ${code !== 100 ? "urlcheck-left-red" : "urlcheck-left-green"}`}
+        className={`urlcheck-left ${code === 200 || code === 201 || code === 301 ? "urlcheck-left-red" : "urlcheck-left-green"}`}
       >
         <img
           height={30}
-          src={code !== 100 ? "/warning.png" : "/check.png"}
+          src={
+            code === 200 || code === 201 || code === 301
+              ? "/warning.png"
+              : "/check.png"
+          }
           alt="warning logo"
         />
         <span>
@@ -23,8 +27,12 @@ export default function Urlcheck({
           <p className="p-secondary">{HasilDesc}</p>
           <Link
             style={{
-              pointerEvents: code !== 100 ? "none" : "auto",
-              textDecoration: code !== 100 ? "line-through" : "underline",
+              pointerEvents:
+                code === 200 || code === 201 || code === 301 ? "none" : "auto",
+              textDecoration:
+                code === 200 || code === 201 || code === 301
+                  ? "line-through"
+                  : "underline",
             }}
             href={
               HasilUrl.startsWith("http") ? HasilUrl : `https://${HasilUrl}`
@@ -44,7 +52,9 @@ export default function Urlcheck({
               style={{
                 width: `${HasilConfidence}%`,
                 backgroundColor:
-                  HasilResult == "Suspicious Link" ? "#b80000" : "#43B800",
+                  code === 200 || code === 201 || code === 301
+                    ? "#b80000"
+                    : "#43B800",
               }}
               className="prohress-confid-in"
             ></div>
