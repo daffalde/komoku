@@ -59,7 +59,7 @@ export default function Home() {
     }
   };
 
-  const handleScan = async (e: ChangeEvent<HTMLInputElement>) => {
+ const handleScan = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -109,8 +109,20 @@ export default function Home() {
           const code = jsQR(imageData.data, imageData.width, imageData.height, {
             inversionAttempts: "dontInvert", // Mempercepat proses jika QR standar
           });
+
           if (code) {
             setQrFile(code.data);
+
+            // Validasi apakah teks di dalam QR Code berupa URL/Link
+            const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
+            if (!urlPattern.test(code.data.trim())) {
+              // Jika bukan link, aktifkan state bukanLink dan hentikan proses
+              setBukanLink(true);
+              setIsLoading(false);
+              setQrContent(false);
+              return;
+            }
+
             try {
               const response = await fetch(
                 "https://daffalde-linkphishing.hf.space/predict",
