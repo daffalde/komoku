@@ -18,7 +18,7 @@ export default function Home() {
 
   const [bukanLink, setBukanLink] = useState<boolean>(false);
 
-  const handleSubmit = async (e: any) => {
+ const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
     setBukanLink(false);
@@ -26,11 +26,18 @@ export default function Home() {
     setNotQR(false);
     setUrlHasil(null);
 
-    if (inputUrl === "") {
+    if (inputUrl.trim() === "") {
       setIsError(true);
       setIsLoading(false);
     } else {
-      // Normalisasi URL: tambahkan https:// jika belum ada
+      const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
+      
+      if (!urlPattern.test(inputUrl.trim())) {
+        setBukanLink(true);
+        setIsLoading(false);
+        return; 
+      }
+
       let normalizedUrl = inputUrl.trim();
       if (!/^https?:\/\//i.test(normalizedUrl)) {
         normalizedUrl = "https://" + normalizedUrl;
