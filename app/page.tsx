@@ -15,13 +15,14 @@ export default function Home() {
   const [qrContent, setQrContent] = useState<boolean>(false);
 
   const [notQR, setNotQR] = useState<boolean>(false);
-
   const [bukanLink, setBukanLink] = useState<boolean>(false);
+  const [qrBukanLink, setQrBukanLink] = useState<boolean>(false);
 
- const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setIsLoading(true);
     setBukanLink(false);
+    setQrBukanLink(false); 
     setIsError(false);
     setNotQR(false);
     setUrlHasil(null);
@@ -66,13 +67,14 @@ export default function Home() {
     }
   };
 
- const handleScan = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleScan = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setQrFile("");
     setIsLoading(true);
     setBukanLink(false);
+    setQrBukanLink(false);
     setIsError(false);
     setNotQR(false);
     setUrlHasil(null);
@@ -89,7 +91,6 @@ export default function Home() {
 
           if (!context) throw new Error("Context tidak ditemukan");
 
-          // Tentukan ukuran maksimal untuk pemrosesan
           const maxDimension = 1000;
           let width = image.width;
           let height = image.height;
@@ -109,22 +110,20 @@ export default function Home() {
           canvas.width = width;
           canvas.height = height;
 
-          // Gambar ulang dengan ukuran yang lebih kecil
           context.drawImage(image, 0, 0, width, height);
 
           const imageData = context.getImageData(0, 0, width, height);
           const code = jsQR(imageData.data, imageData.width, imageData.height, {
-            inversionAttempts: "dontInvert", // Mempercepat proses jika QR standar
+            inversionAttempts: "dontInvert",
           });
 
           if (code) {
             setQrFile(code.data);
 
-            // Validasi apakah teks di dalam QR Code berupa URL/Link
             const urlPattern = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/i;
+            
             if (!urlPattern.test(code.data.trim())) {
-              // Jika bukan link, aktifkan state bukanLink dan hentikan proses
-              setBukanLink(true);
+              setQrBukanLink(true); 
               setIsLoading(false);
               setQrContent(false);
               return;
@@ -265,15 +264,23 @@ export default function Home() {
               ></div>
             )}
           </div>
+          
           {isError && (
             <p className="danger">Please provide the link for analysis</p>
           )}
-          {bukanLink && <p className="danger">A variable is not a link</p>}
-          {notQR && (
-            <p className="danger">
-              The uploaded image does not contain a QR code
-            </p>
+          
+          {bukanLink && (
+            <p className="danger">The input text is not a valid link</p>
           )}
+          
+          {notQR && (
+            <p className="danger">The uploaded image does not contain a QR code</p>
+          )}
+
+          {qrBukanLink && (
+            <p className="danger">The scanned QR code does not contain a valid link</p>
+          )}
+
           <p className="p-secondary">
             Processing URL patterns using Random Forest Algorithm
           </p>
