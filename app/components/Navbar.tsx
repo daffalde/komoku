@@ -47,9 +47,6 @@ export default function Navbar() {
               </div>
             )}
           </li>
-          <li>
-            <Link href="/about">About</Link>
-          </li>
         </ul>
       </div>
       <div className="navbarRight">
